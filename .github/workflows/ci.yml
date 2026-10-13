@@ -1,0 +1,26 @@
+name: Integracion Continua (CI)
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    # 1. SOLUCIÓN UBUNTU: En lugar de 'latest', fijamos una versión estable (LTS) 
+    # para que las actualizaciones sorpresa de GitHub no rompan nuestro código.
+    runs-on: ubuntu-24.04 
+
+    steps:
+    # 2. SOLUCIÓN NODE: Actualizamos a la versión v5 de las actions 
+    # (que ya están escritas para soportar las versiones nuevas de Node en los runners de GitHub)
+    - name: 📥 Descargar el código
+      uses: actions/checkout@v5
+
+    - name: ⚙️ Instalar Node.js
+      uses: actions/setup-node@v5
+      with:
+        node-version: '24' # Actualizamos nuestro proyecto a la versión actual de Node
+
+    - name: 📦 Instalar dependencias
+      run: npm ci
+      

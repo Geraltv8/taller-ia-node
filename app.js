@@ -7,7 +7,10 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { connectDB } from './src/config/db.js';
 import { globalRateLimit } from './src/middlewares/rateLimit.middleware.js';
+import alumnosRoutes from './src/routes/alumnos.routes.js';
+import docentesRoutes from './src/routes/docentes.routes.js';
 import healthRoutes from './src/routes/health.routes.js';
+import materiasRoutes from './src/routes/materias.routes.js';
 
 const app = express();
 
@@ -34,6 +37,19 @@ app.use(globalRateLimit);
 app.use(express.json());
 
 app.use('/api/health', healthRoutes);
+app.use('/api/materias', materiasRoutes);
+app.use('/api/alumnos', alumnosRoutes);
+app.use('/api/docentes', docentesRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({ error: true, mensaje: `Ruta no encontrada: ${req.originalUrl}` });
+});
+
+app.use((error, _req, res, _next) => {
+  const status = error.statusCode || 500;
+  const message = error.message || 'Error interno del servidor';
+  res.status(status).json({ error: true, mensaje: message });
+});
 
 export async function startServer() {
   try {
