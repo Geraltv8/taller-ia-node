@@ -1,22 +1,25 @@
 name: Integracion Continua (CI)
 
-# ¿Cuándo se ejecuta este robot?
 on:
   pull_request:
     branches: [ "main" ]
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest # Una computadora virtual en la nube
+    # 1. SOLUCIÓN UBUNTU: En lugar de 'latest', fijamos una versión estable (LTS) 
+    # para que las actualizaciones sorpresa de GitHub no rompan nuestro código.
+    runs-on: ubuntu-24.04 
 
     steps:
+    # 2. SOLUCIÓN NODE: Actualizamos a la versión v5 de las actions 
+    # (que ya están escritas para soportar las versiones nuevas de Node en los runners de GitHub)
     - name: 📥 Descargar el código
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: ⚙️ Instalar Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
-        node-version: '24.14.0' # La misma que usamos en local
+        node-version: '24' # Actualizamos nuestro proyecto a la versión actual de Node
 
     - name: 📦 Instalar dependencias
       run: npm ci
@@ -24,6 +27,3 @@ jobs:
     - name: 🔍 Chequear tipado y compilar (TypeScript)
       run: npm run build
       
-    # Si tuvieran tests configurados, agregaríamos:
-    # - name: 🧪 Ejecutar Tests
-    #   run: npm test
