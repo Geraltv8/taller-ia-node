@@ -1,0 +1,29 @@
+name: Integracion Continua (CI)
+
+# ¿Cuándo se ejecuta este robot?
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Una computadora virtual en la nube
+
+    steps:
+    - name: 📥 Descargar el código
+      uses: actions/checkout@v4
+
+    - name: ⚙️ Instalar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # La misma que usamos en local
+
+    - name: 📦 Instalar dependencias
+      run: npm ci
+
+    - name: 🔍 Chequear tipado y compilar (TypeScript)
+      run: npm run build
+      
+    # Si tuvieran tests configurados, agregaríamos:
+    # - name: 🧪 Ejecutar Tests
+    #   run: npm test
