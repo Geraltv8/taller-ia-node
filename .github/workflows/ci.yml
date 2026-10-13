@@ -16,7 +16,7 @@ jobs:
     - name: ⚙️ Instalar Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20' # La misma que usamos en local
+        node-version: '24.14.0' # La misma que usamos en local
 
     - name: 📦 Instalar dependencias
       run: npm ci
