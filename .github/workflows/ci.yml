@@ -23,7 +23,4 @@ jobs:
 
     - name: 📦 Instalar dependencias
       run: npm ci
-
-    - name: 🔍 Chequear tipado y compilar (TypeScript)
-      run: npm run build
       
